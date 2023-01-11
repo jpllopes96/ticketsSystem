@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# Tickets System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**See the project online:**
+https://ticketssystem.netlify.app/
 
-## Available Scripts
+username: joao@email.com
+password: 123123
 
-In the project directory, you can run:
+# Descripition 
 
-### `npm start`
+The project **Tickets System** is a project developed during **Sujeito Programador** classes. The purpose of the application is to create a system to register and control tickets, in which the user can create an account, add a customer, and register a ticket for one of the registered customers. The dashboard will list all the cases ordered by date and the ticket status(Open, Progress, Close).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Sujeito Programador:**
+https://sujeitoprogramador.com/
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<div align="center">
+<img align="center" alt="MoviesHome" src="src/assets/system.png">
+</div>
 
-### `npm test`
+<br/><br/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Features
 
-### `npm run build`
+- Sign In and Sign Up
+- Edit Profile
+- Image upload
+- Add customers, tickets
+- List Tickets
+- Edit Tickets
+- View case details in a modal
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📡 Technologies 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<div align="center"> 
+<img align="left" alt="HTML" height="30" width="30" src="https://github.com/devicons/devicon/blob/v2.15.1/icons/html5/html5-original.svg">
+<img align="left" alt="CSS" height="30" width="30" src="https://github.com/devicons/devicon/blob/v2.15.1/icons/css3/css3-original.svg">
+<img align="left" alt="Javascript" height="30" width="30" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+<img align="left" alt="React" height="30" width="30" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">  
+<img align="left" alt="Firebase" height="30" width="30" src="https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982099a2bd027a48bf1/icons/firebase/firebase-plain.svg">
+</div>
+<br/><br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🔎 Project Status 
 
-### `npm run eject`
+![Done](https://img.shields.io/badge/Status-Done-brightgreen)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<br/>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🌍 Find me
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Linkedin](https://www.linkedin.com/in/joao-lopes-071026198/)
