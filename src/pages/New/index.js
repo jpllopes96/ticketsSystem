@@ -1,20 +1,24 @@
 import Header from '../../components/Header'
 import Title  from '../../components/Title'
 import './new.css'
-import { FiPlusCircle } from 'react-icons/fi'
+import { FiPlusCircle, FiEdit } from 'react-icons/fi'
 import { useState, useEffect, useContext} from 'react'
 import { AuthContext } from '../../contexts/auth'
 import { db } from '../../services/firebaseConnection'
-import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore'
+import { collection, getDocs, getDoc, doc, addDoc, updateDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const listRef = collection(db, 'customers');
 
 export default function New(){
-    const { user } = useContext(AuthContext)
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+    const { id } = useParams();
     const [customers, setCustomers] = useState([])
     const [customerSelected, setCustomerSelected] = useState(0)
     const [loadCustomer, setLoadCustomer] = useState(true)
+    const [idCustomer, setIdCustomer] = useState(false)
 
     const [note, setNote] = useState('');
     const [subject, setSubject] = useState('Support');
@@ -38,6 +42,9 @@ export default function New(){
                 }
                 setCustomers(list)
                 setLoadCustomer(false)
+                if(id){
+                    loadId(list);
+                }
             })
 
             .catch((error)=>{
@@ -48,8 +55,27 @@ export default function New(){
         }
 
         loadCustomers()
-    }, [])
+    }, [id])
 
+    async function loadId(list) {
+        const docRef = doc(db, 'tickets', id);
+        await getDoc(docRef)
+        .then((snapshot) =>{
+            setSubject(snapshot.data().subject)
+            setStatus(snapshot.data().status)
+            setNote(snapshot.data().note)
+            
+            let index = list.findIndex( item => item.id === snapshot.data().customerId)
+            setCustomerSelected(index)
+            setIdCustomer(true)
+        })
+        .catch((error) =>{
+            console.log(error)
+            toast.error('Invalid Id')
+            navigate('/dashboard')
+            setIdCustomer(false)
+        })
+    }
     function handleOptionChange(e){
         setStatus(e.target.value)
         
@@ -66,6 +92,29 @@ export default function New(){
 
     async function handleRegister(e){
         e.preventDefault();
+
+        //update ticked
+        if(idCustomer){
+           const docRef = doc(db, 'tickets', id)
+           await updateDoc(docRef, {
+                customer: customers[customerSelected].nameCompany,
+                customerId: customers[customerSelected].id,
+                subject: subject,
+                note: note,
+                status: status,
+                 userId: user.uid
+           })
+           .then(()=>{
+                toast.success("Ticket updated with success!")
+                setCustomerSelected(0)
+                setNote('');
+                navigate('/dashboard')
+           })
+           .catch(()=> {
+                toast.error('Error in update the ticket')
+           })
+            return;
+        }
         await addDoc(collection(db, 'tickets'), {
             created: new Date(),
             customer: customers[customerSelected].nameCompany,
@@ -89,8 +138,8 @@ export default function New(){
         <div>
             <Header />
             <div className='content'>
-                <Title title='Add Ticket'>
-                    <FiPlusCircle size={25} />
+                <Title title={id ? 'Update Ticket' : 'Add Ticket'}>
+                {!id ? <FiPlusCircle size={25} /> : <FiEdit size={25} />} 
                 </Title>
                 <div className='container'>
                     <form className='formProfile' onSubmit={handleRegister}>
@@ -131,7 +180,7 @@ export default function New(){
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
                         />
-                        <button type='submit' >Register</button>
+                        <button type='submit' >{id ? 'Update Ticket' : 'Register'}</button>
                     </form>
                 </div>
                 

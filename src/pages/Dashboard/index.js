@@ -8,6 +8,8 @@ import { Link } from "react-router-dom"
 import { db } from "../../services/firebaseConnection"
 import { collection, getDocs, orderBy, limit, startAfter, query } from "firebase/firestore"
 import { format } from "date-fns"
+import Modal  from '../../components/Modal';
+
 const listRef = collection(db, 'tickets')
 
 
@@ -15,7 +17,12 @@ export default function Dashboard(){
 
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isEmpty, setIsEmpty] = useState(false)
+
+    const [isEmpty, setIsEmpty] = useState(false);
+    const [lastDocs, setLastDocs] = useState();
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [showPostModal, setShowPostModal] = useState(false);
+    const [detail, setDetail] = useState();
 
    useEffect(()=>{
         async function loadCases(){
@@ -52,10 +59,27 @@ export default function Dashboard(){
                 })
             })
 
+            const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
             setTickets(cases => [...cases, ...list])
+            setLastDocs(lastDoc)
+            
         }else{
             setIsEmpty(true)
         }
+
+        setLoadingMore(false);
+   }
+
+   function toggleModal(item){
+        setShowPostModal(!showPostModal)
+        setDetail(item)
+   }
+
+    async function handleMore(){
+        setLoadingMore(true)
+        const q = query(listRef, orderBy('created', 'desc'), startAfter(lastDocs), limit(5));
+        const querySnapshot = await getDocs(q);
+        await updateState(querySnapshot)
    }
    if(loading){
     return(
@@ -112,27 +136,33 @@ export default function Dashboard(){
                                                 <td data-label='Customer'>{item.customer}</td>
                                                 <td data-label='Subject'>{item.subject}</td>
                                                 <td data-label='Status'>
-                                                    <span className="badge" style={{ backgroundColor: '#999' }}>
+                                                    <span className="badge" style={{ backgroundColor: item.status === 'Open' ? '#5cb85c' : item.status === 'Closed' ? '#d21' : '#999' }}>
                                                         {item.status}
                                                     </span>
                                                 </td>
                                                 <td data-label='Created'>{item.createdFormat}</td>
                                                 <td data-label='Actions'>
-                                                    <button style={{ backgroundColor: '#3583f6'}} className='action'>
+                                                    <button style={{ backgroundColor: '#3583f6'}} onClick={()=> toggleModal(item)} className='action'>
                                                         <FiSearch color="#FFF" size={17}   />
                                                     </button>
-                                                    <button style={{ backgroundColor: '#F6a935'}} className='action'>
+                                                    <Link to={`/new/${item.id}`} style={{ backgroundColor: '#F6a935'}} className='action'>
                                                         <FiEdit2 color="#FFF" size={17}   />
-                                                    </button>
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         )
                                     })}
                                 </tbody>
                             </table>
+
+                            {loadingMore && <h3>Loading more cases...</h3>}
+                            {!loadingMore && !isEmpty && <button className='btnMore' onClick={handleMore}>Search more</button>}
                         </>
                     )}                    
                 </>
+                {showPostModal && (
+                    <Modal content={detail} close={()=> setShowPostModal(!showPostModal)}/>
+                )}
             </div>
         </div>
     )
